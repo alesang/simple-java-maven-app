@@ -1,0 +1,38 @@
+pipeline {
+     agent any
+     stages {
+         stage('Build') {
+             steps {
+                 bat 'echo building...'
+                 bat 'mvn clean install -Dmaven.test.failure.ignore=true'
+             }
+         }
+         stage('Test') {
+             steps {
+                 bat 'echo testing...'
+             }
+         }
+         stage('Deploy - Staging') {
+             steps {
+                 bat 'echo deploying to staging...'
+                 bat 'echo smoke tests...'
+             }
+         }
+         
+         stage('Approval to Staging') {
+             steps {
+                 input "Do you approve for staging?"
+             }
+         }
+         stage('Deploy - Production') {
+             steps {
+                 bat 'echo deploying to production...'
+             }
+         }
+        stage('Email Notification') {
+             steps {
+                 emailext body: 'Build Status', subject: 'Build Status', to: 'ale.sangita5@gmail.com'
+             }
+        }
+     }
+}
