@@ -17,6 +17,7 @@ pipeline {
                     junit 'target/surefire-reports/*.xml' 
                 }
          }
+         }
          stage('Deploy - Staging') {
              steps {
                  bat 'echo deploying to staging...'
